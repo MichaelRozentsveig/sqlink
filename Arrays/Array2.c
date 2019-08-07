@@ -16,8 +16,7 @@ int main(){
 }
 
 
-void sort(int arr[], int n) 
-{ 
+void sort(int arr[], int n) { 
     int count = 0;
     int i =0;
 
