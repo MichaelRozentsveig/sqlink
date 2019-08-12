@@ -19,7 +19,11 @@ int main(){
 	while(1){
 	
 		printf("Insert number: (-1 to exit)\n");
-		num = malloc(sizeof(int));		
+		num = malloc(sizeof(int));
+		if (!(num)){ 
+			printf("Not enough memory");
+			return 0;
+		}
 		scanf("%d",num);
 		if (*num==-1) {break;}
 		insert(dynArrSt, num); /* adding num to the array*/
