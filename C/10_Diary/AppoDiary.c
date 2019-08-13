@@ -40,9 +40,9 @@ struct Meeting_t* createMeeting(){
 	printf("Insert room number: \n");
 	scanf("%d", &r);
 
-	/*if (begin>=end || end<0 || begin<0 || r<0 || end>24){
+	if (begin>=end || end<0 || begin<0 || r<0 || end>24){
 		return NULL;	
-	}*/
+	}
 	
 	me->beginH =  begin;	
 	me->endH = end;
