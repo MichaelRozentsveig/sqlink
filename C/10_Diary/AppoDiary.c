@@ -40,9 +40,9 @@ struct Meeting_t* createMeeting(){
 	printf("Insert room number: \n");
 	scanf("%d", &r);
 
-	if (begin>=end || end<0 || begin<0 || r<0 || end>24){
+	/*if (begin>=end || end<0 || begin<0 || r<0 || end>24){
 		return NULL;	
-	}
+	}*/
 	
 	me->beginH =  begin;	
 	me->endH = end;
@@ -169,18 +169,18 @@ struct Meeting_t* findAppo(struct Calendar_t* ca,float begin){
 
 
 
-void printAD(struct Calendar_t* cptr){ /*Prints all the values in the array*/
+void printAD(struct Calendar_t* cptr){ 
 	
 	int i=0;
 	if(!(cptr)){return;}
 
 	for (; i<(cptr->count); i++){
-		printf("Time: %f ~ %f Room: %d\n", cptr->mt[i]->beginH, cptr->mt[i]->endH, cptr->mt[i]->room);
+		printf("Time: %.2f ~ %.2f Room: %d\n", cptr->mt[i]->beginH, cptr->mt[i]->endH, cptr->mt[i]->room);
 	}
 	printf("\n");
 }
 
-void destroy(struct Calendar_t* ca){ /*Frees the memory of the struct and the array*/
+void destroy(struct Calendar_t* ca){ 
 	
 	int i=0;
 	if (!(ca)) {return;}
@@ -193,7 +193,6 @@ void destroy(struct Calendar_t* ca){ /*Frees the memory of the struct and the ar
 	free(ca->mt);
 	free(ca);
 }
-
 
 
 
