@@ -17,7 +17,8 @@ int main()
 	elementCompare compare = compareInt;
 	int initial_capacity=0;
 	int cont = 1;
-	int item= 0;
+	int* item1;
+	int item = 0;
 	unsigned int option = 0;
 	unsigned int myIndex = 0;
 	int myInt = 0;
@@ -52,9 +53,10 @@ int main()
 		switch (option)
 		{
 			case 1: 
+				item1 = malloc(sizeof(int));
 				printf("Insert item: \n");
-				scanf("%d",&item);
-				if (darrayAdd(dArr,(void*)&item))
+				scanf("%d",&item1[0]);
+				if (darrayAdd(dArr,item1))
 				{
 				    printf("Adding Failed !!! \n");
 				}           
