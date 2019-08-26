@@ -215,8 +215,7 @@ AdtStatus destroyBST(Tree* tree)
 	{
 		return AllocationError;
 	}
-	return destroyBSTnode(tree->m_root);
-	
+	return destroyBSTnode(tree->m_root);	
 }
 
 

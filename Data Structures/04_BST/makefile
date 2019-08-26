@@ -10,7 +10,7 @@ a1.o : BST.c BST.h
 
 	gcc -c $(CFLAGS) BST.c
 
-a2.o : darrayTest.c BST.h
+a2.o : TestBST.c BST.h
 
 	gcc -c $(CFLAGS) TestBST.c
 

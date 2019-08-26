@@ -22,7 +22,7 @@ int main()
 		printf("Choose option:       	\n");
 		printf("1: Insert item       	\n");
 		printf("2: Delete item       	\n");
-		printf("3: Sum Tree          	\n");
+		printf("3: Print Tree          	\n");
 		printf("4: Check if item exists \n");
 
 		scanf("%u",&option);
