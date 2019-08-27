@@ -136,14 +136,14 @@ AdtStatus insertHash(Hashtable_t* hash, void* key, void* value)
 AdtStatus findHash(Hashtable_t* hash, void* key)	
 {
 	int bin = 0;
-	Node_t* pair;
+	Node_t* pair = malloc(sizeof(Node_t));
 
-	if (hash==NULL)
+	if (hash==NULL || pair ==NULL)
 	{
 		return AllocationError;
 	}
 		
-	bin = hash->hashFunc(key);
+	bin = hash->hashFunc(key)%(hash->m_hashCapacity);
 	
 	pair = hash->buckets[bin];
 	while(pair != NULL && pair->m_key != NULL && hash->compFunc(key, pair->m_key) > 0) 
@@ -235,6 +235,3 @@ AdtStatus deleteElem (Hashtable_t* hash, void* key, elemDestroy destroyKey,elemD
 		return NotFound;
 	}
 }
-
-
-

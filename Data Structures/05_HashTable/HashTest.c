@@ -25,28 +25,38 @@ int main()
 	int inPtr1 = 5;
 	int inPtr2 = 10;
 	int inPtr3 = 11;
-	fp = fopen("File.txt","w");
+	int inPtr4 = 11;
+
+	fp = fopen("File.txt","a");
 	ht = createHash(size,hash_str, compare_str);
 	insertHash(ht,"Mike",&inPtr1);
 	insertHash(ht,"Bike",&inPtr2);
 	insertHash(ht,"Shpike",&inPtr3);
+	insertHash(ht,"Lala",&inPtr4);
+
 
 	hashForEach(ht, print_str);
 	printf("\n");
 
-	deleteElem(ht,"Mike",destroy_key,destroy_str,fp);
+	deleteElem(ht,"Bike",destroy_key,destroy_str,fp);
 	hashForEach(ht, print_str);
 	printf("\n");
 
-	printf("%d ",findHash(ht,"Mike"));
-	destroyHash(ht,destroy_str, destroy_key,fp);
+	printf("%d ",findHash(ht,"Bike"));
+	printf("\n");
+
+	destroyHash(ht,destroy_key, destroy_str,fp);
+
 	fclose(fp);
 	return 0;
 }
 
 void destroyStr(void* elem, void* context)
 {
-	return;
+    FILE* fp = (FILE*) context;
+	int* n = (int*) elem;
+	
+	fprintf(fp,"%d ", *n);
 }
 
 void printStr(void* _elem)
@@ -77,7 +87,12 @@ unsigned long hashStr(void* str)
 
 void destroyKey(void* elem, void* context)
 {
+	FILE* fp = (FILE*) context;
+	unsigned char* n = (unsigned char*) elem;
+	
+	fprintf(fp,"%s ", n);
 	return;
+	
 }
 
 
