@@ -12,37 +12,62 @@ unsigned long hashStr   (void* key);
 int main()
 {
 	FILE* fp;
-    Hashtable_t* ht;
-
+    Hashtable_t* ht = NULL;
+	
+	int size = 10;
 	elemDestroy     destroy_str = destroyStr;
 	elemDestroy 	destroy_key	= destroyKey;
 	elemPrint       print_str   = printStr;
 	elemCompare     compare_str = compareStr;
     hashFunction    hash_str    = hashStr;
 
-	int size = 10;
-
 	int inPtr1 = 5;
 	int inPtr2 = 10;
 	int inPtr3 = 11;
-	int inPtr4 = 11;
+	int inPtr4 = 13;
 
-	fp = fopen("File.txt","a");
+	fp = fopen("File.txt","w");
+	printf("\nTrying to insert in non-existing Hash: \n");
+
+	if (insertHash(ht,"Lala",&inPtr4)==4)
+	{
+		printf("Cannot insert, null Hash\n ");
+	}
+
 	ht = createHash(size,hash_str, compare_str);
 	insertHash(ht,"Mike",&inPtr1);
 	insertHash(ht,"Bike",&inPtr2);
 	insertHash(ht,"Shpike",&inPtr3);
 	insertHash(ht,"Lala",&inPtr4);
-
-
-	hashForEach(ht, print_str);
+	
 	printf("\n");
+	hashForEach(ht, print_str);
+	
+	printf("\nTrying to insert value 5: \n");
+	if (insertHash(ht,"Mike",&inPtr1)== 3)
+	{
+		printf ("\n%d Already exists\n", inPtr1);
+	}
 
+	printf("\nDeleting Bike - value 10:\n");
 	deleteElem(ht,"Bike",destroy_key,destroy_str,fp);
 	hashForEach(ht, print_str);
-	printf("\n");
+	printf("\n\nSearching Bike - Value 10\n");
 
-	printf("%d ",findHash(ht,"Bike"));
+	if (findHash(ht,"Bike")==2)
+	{
+		printf("Not Found !\n");
+	}
+	else
+	{
+		printf("Found!\n");
+	}
+	printf("\nDeleting Bike again - value 10:\n");
+	if (deleteElem(ht,"Bike",destroy_key,destroy_str,fp)!=0)
+	{
+		printf("Item does not exist\n");
+	}
+	hashForEach(ht, print_str);
 	printf("\n");
 
 	destroyHash(ht,destroy_key, destroy_str,fp);
@@ -94,8 +119,3 @@ void destroyKey(void* elem, void* context)
 	return;
 	
 }
-
-
-
-
-

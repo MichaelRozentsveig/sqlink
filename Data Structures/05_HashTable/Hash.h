@@ -5,6 +5,7 @@ typedef struct Node Node_t;
 typedef struct hashtable Hashtable_t;
 
 typedef enum {OK, AllocationError, NotFound, Found, NullPtr} AdtStatus;
+typedef enum {Failed, Succeed} TestStatus;
 
 typedef unsigned long(*hashFunction)(void* key);
 typedef int(*elemCompare)           (void* elemA, void* elemB);

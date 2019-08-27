@@ -27,7 +27,7 @@ Hashtable_t* createHash(int capacity, hashFunction hashFunc, elemCompare compFun
 		return NULL;	
 	}
 	hashtable = malloc(sizeof(Hashtable_t));
-	if (hashtable ==NULL)
+	if (hashtable == NULL)
 	{
 		return NULL;
 	}
@@ -72,7 +72,8 @@ void destroyHash(Hashtable_t* hash, elemDestroy destroyKey,elemDestroy destroyVa
 	free(hash);	
 }
 
-Node_t* ht_newpair(void *key, void *value ) {
+Node_t* ht_newpair(void *key, void *value ) 
+{
 	Node_t* newpair;
 
 	newpair =malloc(sizeof(Node_t));
@@ -98,9 +99,11 @@ AdtStatus insertHash(Hashtable_t* hash, void* key, void* value)
 	Node_t *newpair = NULL;
 	Node_t *next = NULL;
 	Node_t *last = NULL;
-
+	if (hash == NULL)
+	{
+		return NullPtr;
+	}
 	bin = hash->hashFunc(key)%(hash->m_hashCapacity);
-
 	next = hash->buckets[bin];
 
 	while( next != NULL && next->m_key != NULL && hash->compFunc( key, next->m_key ) > 0 )
@@ -108,7 +111,6 @@ AdtStatus insertHash(Hashtable_t* hash, void* key, void* value)
 		last = next;
 		next = next->m_next;
 	}
-
 	if( next != NULL && next->m_key != NULL && hash->compFunc( key, next->m_key ) == 0 ) 
 	{
 		return Found;
@@ -120,7 +122,8 @@ AdtStatus insertHash(Hashtable_t* hash, void* key, void* value)
 		{
 			newpair->m_next = next;
 			hash->buckets[ bin ] = newpair;
-		} else if (next == NULL) 
+		} 
+		else if (next == NULL) 
 		{
 			last->m_next = newpair;
 		} 
@@ -141,11 +144,10 @@ AdtStatus findHash(Hashtable_t* hash, void* key)
 	if (hash==NULL || pair ==NULL)
 	{
 		return AllocationError;
-	}
-		
+	}	
 	bin = hash->hashFunc(key)%(hash->m_hashCapacity);
-	
 	pair = hash->buckets[bin];
+	
 	while(pair != NULL && pair->m_key != NULL && hash->compFunc(key, pair->m_key) > 0) 
 	{
 		pair = pair->m_next;
@@ -205,29 +207,23 @@ AdtStatus deleteElem (Hashtable_t* hash, void* key, elemDestroy destroyKey,elemD
 		{
 			if(next->m_next != NULL)
 			{
-				hash->buckets[bin] = next->m_next;
-				destroyKey(next->m_key,context);
-				destroyValue(next->m_value,context);	
+				hash->buckets[bin] = next->m_next;					
 			}
 			else
 			{
 				hash->buckets[bin]=NULL;
-				destroyKey(next->m_key,context);
-				destroyValue(next->m_value,context);
-			}
+			}	
 		}
 		else if (next->m_next != NULL)
 		{
 			last->m_next = next->m_next;
-			destroyKey(next->m_key,context);
-			destroyValue(next->m_next,context);	
 		}
 		else
 		{
-			last->m_next = NULL;
-			destroyKey(next->m_key,context);
-			destroyValue(next->m_next,context);		
+			last->m_next = NULL;		
 		}
+		destroyKey(next->m_key,context);
+		destroyValue(next->m_value,context);
 		return OK;
 	}
 	else
