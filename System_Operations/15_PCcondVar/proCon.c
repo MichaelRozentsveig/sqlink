@@ -58,6 +58,7 @@ void * dequeue(Queue* queue) /*func to remove*/
     item = queue->array[queue->front]; 
     queue->front = (queue->front + 1)%queue->capacity; 
     queue->size--;
+    pthread_cond_signal(&(queue->empty));
     pthread_mutex_unlock(&(queue->lock));
     return item; 
 
