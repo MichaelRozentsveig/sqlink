@@ -1,7 +1,5 @@
-#pragma once
-#include <iostream>
-#include <string.h>
-using namespace std;
+#ifndef STRING_H
+#define STRING_H
 
 class String_t
 {
@@ -22,3 +20,5 @@ class String_t
 
         char* name;
 };
+
+#endif

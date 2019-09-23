@@ -1,4 +1,4 @@
-#include <iostream>
+#include <stdio.h>
 #include <string.h>
 #include "String_t.h"
 
@@ -7,7 +7,6 @@ String_t::String_t(const char* str)
     this->name = new char[strlen(str)+1];
     strcpy(this->name, str);
 }
-//String_t(const String_t& str)
 
 String_t& String_t::operator=(const String_t& str)
 {
@@ -47,5 +46,5 @@ int String_t::compareStr(String_t& str) const
 }
 void String_t::printStr()
 {
-    cout << this->name << endl;
+    printf("%s\n",this->name ) ;
 }
