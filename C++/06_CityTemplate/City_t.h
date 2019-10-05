@@ -7,10 +7,10 @@ template <class TC, class TS, class TB>
 class City_t
 {
     public:
-        City_t                   ();
-        ~City_t                   ();
-        City_t                    (const City_t& s);
-        City_t<TC,TS,TB>& operator=   (const City_t& s);
+        City_t                      ();
+        ~City_t                     ();
+        City_t                      (const City_t& s);
+        City_t<TC,TS,TB>& operator= (const City_t& s);
 
         const TC&   getCityID()                    const;
         void        setCityID(const TC& cityID)         ;

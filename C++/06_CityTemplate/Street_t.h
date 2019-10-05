@@ -10,10 +10,10 @@ class Street_t
     //typedef status enum{FAILED, SUCCEED};
 
     public:
-        Street_t                   ();
+        Street_t                    ();
         ~Street_t                   ();
         Street_t                    (const Street_t& s);
-        Street_t<TS,TB>& operator=   (const Street_t& s);
+        Street_t<TS,TB>& operator=  (const Street_t& s);
 
         const TS&   getStreetID()                     const ;
         void        setStreetID(const TS& streetID)         ; 
