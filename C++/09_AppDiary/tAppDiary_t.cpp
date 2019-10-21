@@ -6,13 +6,13 @@ bool tAppDiary_t::insertMeeting  ( tMeeting_t* meet)
     tMeeting_t* currentMeet;
     tMeeting_t* nextMeet;        
     
-    if(it==m_meetings.end())
+    if(it==m_meetings.end()) // Empty map
     {
         m_meetings[meet->getBeginHour()]=meet;
         return true;
     }
-    currentMeet = it->second;
-    if(meet->getEndHour() < currentMeet->getBeginHour())
+    currentMeet = it->second; 
+    if(meet->getEndHour() < currentMeet->getBeginHour()) // Earlier than the first
     {
         m_meetings[meet->getBeginHour()]=meet;
         return true;
@@ -22,7 +22,7 @@ bool tAppDiary_t::insertMeeting  ( tMeeting_t* meet)
     it--;
     currentMeet=it->second;
 
-    if(meet->getBeginHour() > currentMeet->getEndHour())
+    if(meet->getBeginHour() > currentMeet->getEndHour()) // Post last meeting
     {
         m_meetings[meet->getBeginHour()]=meet;
         return true;
