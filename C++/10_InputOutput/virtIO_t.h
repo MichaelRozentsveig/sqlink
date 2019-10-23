@@ -12,23 +12,23 @@ class virtIO_t
 {
 
     public:
-        enum statusFile {ok_e, cant_open_file_e, bad_access_e, writeErr_e, readErr_e};
+        typedef enum statusFile {ok_e, cant_open_file_e, bad_access_e, writeErr_e, readErr_e} statusFile;
 
 
         virtIO_t() // Default CTOR
         {
             m_fp        = 0;
-            m_fileMode  = "";
-            m_filePath  = "";
-            m_status    = cant_open_file_e ;
+            m_status    = ok_e ;
 
         }
 
         virtIO_t(const string& filePath,const string& fileMode) // CTOR from path & mode
         {
+            m_fp = fopen(filePath.c_str(),fileMode.c_str());
             m_filePath  = filePath;
             m_fileMode  = fileMode;
-            m_status    = cant_open_file_e;
+            m_status    = ok_e;
+
         }
         virtual ~virtIO_t() // DTOR
         {
@@ -38,12 +38,15 @@ class virtIO_t
             }
         }
 
-        void openFile()
+        void openFile(const string& filePath, const string& fileMode)
         {
             if (m_fp)
             {
-                return cant_open_file_e;
+                m_status= cant_open_file_e;
             }
+            m_fp = fopen(m_filePath.c_str(), m_fileMode.c_str());
+            m_fileMode = fileMode;
+            m_filePath = filePath;
             m_status = ok_e;
         }
 
@@ -51,10 +54,11 @@ class virtIO_t
         {
             if (!m_fp)
             {
-                return bad_access_e;
+                m_status = bad_access_e;
             }   
             fclose(m_fp);
-            m_status = cant_open_file_e;
+            m_fp =0;
+            m_status = bad_access_e;
         }
 
         const statusFile&   getStatus   () const            {return m_status;}
@@ -69,11 +73,14 @@ class virtIO_t
             {
                 return -1;
             }
+            size_t pos = ftell(m_fp);
             fseek(m_fp,0,SEEK_END);
-            return ftell(m_fp);
+            size_t result = ftell(m_fp);
+            fseek(m_fp, pos, SEEK_SET);
+            return result;
         }
 
-        int setPos      (size_t pos){return fseek(m_fp, num, SEEK_SET);}
+        int setPos      (size_t pos){return fseek(m_fp, pos, SEEK_SET);}
 
         size_t getPos   () const    {return ftell(m_fp);}
 
@@ -107,12 +114,10 @@ class virtIO_t
         virtual virtIO_t& operator << (double val)          = 0;
         virtual virtIO_t& operator >> (double& val)         = 0;
 
-
-
-        void setStatus(statusFile sf);
-
     protected:
-        FILE* m_fp;            
+        FILE* m_fp; 
+
+        
 
     private:
 
@@ -120,9 +125,12 @@ class virtIO_t
         string m_fileMode;
         statusFile m_status;
 
+        bool isOpen;
+
         virtIO_t& operator= (const virtIO_t& virtIO){}
-        virtIO_t&           (const virtIO_t& virtIO){}  
+        virtIO_t            (const virtIO_t& virtIO){}  
 
 
 };
 
+#endif
