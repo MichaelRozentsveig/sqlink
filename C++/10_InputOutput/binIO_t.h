@@ -77,6 +77,7 @@ class binIO_t : public virtIO_t
             if (m_writable)
             {  
                 int res = fwrite(m_buf, 1, length, m_fp);
+
                 if (length != res)
                 {
                     setStatus(writeErr_e);
@@ -92,6 +93,7 @@ class binIO_t : public virtIO_t
                     throw readErr_e;
                 }
             }	
+            fseek(m_fp,0,SEEK_SET);
         }
     private:
 
