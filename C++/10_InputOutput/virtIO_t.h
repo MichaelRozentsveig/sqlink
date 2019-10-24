@@ -14,7 +14,6 @@ class virtIO_t
     public:
         typedef enum statusFile {ok_e, cant_open_file_e, bad_access_e, writeErr_e, readErr_e} statusFile;
 
-
         virtIO_t() // Default CTOR
         {
             m_fp        = 0;

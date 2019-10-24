@@ -241,7 +241,7 @@ void testFunc(virtIO_t * vio)
                     cout << "Enter string:" << endl;
                     cin >> buffer;
 
-                    *bio << (void*) buffer, strlen(buffer);
+                    *bio << (void*) buffer, 3;
                 }
                 else
                 {
