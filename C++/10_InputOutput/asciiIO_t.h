@@ -75,7 +75,8 @@ class asciiIO_t : public virtIO_t
         }
 
     private:
-
+        asciiIO_t& operator= (const asciiIO_t& virtIO){}
+        asciiIO_t            (const asciiIO_t& virtIO){}  
     
 };
 
