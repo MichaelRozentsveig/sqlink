@@ -15,11 +15,14 @@ int main()
     string path;
     string mode;
 
-    cout    <<  "enter path"<<endl;
+    cout    <<  "Enter path"    << endl;
     cin     >>  path;
-    cout    <<  "enter mode"<<endl;
+    cout    <<  "Enter mode"    << endl;
     cin     >>  mode;
-    cout    <<  "enter 1 to asciiIO file or 2 to binaryIO file or other number to end"<<endl;
+    cout    <<  "Choose:"       << endl
+            <<  "1 >>> Ascii"   << endl
+            <<  "2 >>> Binary"  << endl;
+
     cin     >>  choose;
     virtIO_t * vio;
 
@@ -87,7 +90,7 @@ void testFunc(virtIO_t * vio)
         {
             case 1: 
 
-                if(vio->getStatus()==virtIO_t::ok_e)
+                if (bio->getStatus() != virtIO_t::cant_open_file_e && bio->getStatus() != virtIO_t::bad_access_e )
                 {
                     vio->closeFile();
                 }
@@ -99,7 +102,7 @@ void testFunc(virtIO_t * vio)
 
             case 2: 
 
-                if(vio->getStatus()==0)
+                if (bio->getStatus() != virtIO_t::cant_open_file_e && bio->getStatus() != virtIO_t::bad_access_e )
                 {
                     string path=vio->getPath();
                     cout<<"path= "<<path<<endl;
@@ -112,7 +115,7 @@ void testFunc(virtIO_t * vio)
 
             case 3: 
 
-                if(vio->getStatus()==virtIO_t::ok_e)
+                if (bio->getStatus() != virtIO_t::cant_open_file_e && bio->getStatus() != virtIO_t::bad_access_e )
                 {   
                     string mode=vio->getMode();
                     cout<<"mode= "<<mode<<endl;
@@ -125,7 +128,7 @@ void testFunc(virtIO_t * vio)
 
             case 4: 
 
-                if(vio->getStatus()==virtIO_t::ok_e)
+                if (bio->getStatus() != virtIO_t::cant_open_file_e && bio->getStatus() != virtIO_t::bad_access_e )
                 {
                     long len=vio->getFileLength();
                     cout<<"length= "<<len<<endl;
@@ -138,7 +141,7 @@ void testFunc(virtIO_t * vio)
 
             case 5: 
 
-                if(vio->getStatus()==virtIO_t::ok_e)
+                if (bio->getStatus() != virtIO_t::cant_open_file_e && bio->getStatus() != virtIO_t::bad_access_e )
                 {
                     long pos=vio->getPos();
                     cout<<"pos= "<<pos<<endl;
@@ -151,7 +154,7 @@ void testFunc(virtIO_t * vio)
 
             case 6: 
 
-                if(vio->getStatus()==virtIO_t::ok_e)
+                if (bio->getStatus() != virtIO_t::cant_open_file_e && bio->getStatus() != virtIO_t::bad_access_e )
                 { 
                     long pos;
                     cout<<"enter position"<<endl;
@@ -166,7 +169,7 @@ void testFunc(virtIO_t * vio)
 
             case 7: 
 
-                if(vio->getStatus()==virtIO_t::ok_e)
+                if (bio->getStatus() != virtIO_t::cant_open_file_e && bio->getStatus() != virtIO_t::bad_access_e )
                 {
                     cout<<"status= "<<vio->getStatus()<<endl;
                 }
@@ -178,7 +181,7 @@ void testFunc(virtIO_t * vio)
 
             case 8: 
 
-                if(vio->getStatus()==virtIO_t::ok_e)
+                if (bio->getStatus() != virtIO_t::cant_open_file_e && bio->getStatus() != virtIO_t::bad_access_e )
                 {              
                     *vio     >>  num;
                     cout    <<  num     << endl;
@@ -191,7 +194,7 @@ void testFunc(virtIO_t * vio)
 
             case 9: 
 
-                if(vio->getStatus()==virtIO_t::ok_e)
+                if (bio->getStatus() != virtIO_t::cant_open_file_e && bio->getStatus() != virtIO_t::bad_access_e )
                 {
                     cout    <<  "enter num"<<endl;
                     cin     >>  num;
@@ -206,7 +209,7 @@ void testFunc(virtIO_t * vio)
             case 10:
 
                 bio = dynamic_cast<binIO_t*> (vio);
-                if (bio->getStatus() == virtIO_t::ok_e )
+                if (bio->getStatus() != virtIO_t::cant_open_file_e && bio->getStatus() != virtIO_t::bad_access_e )
                 {         
                     int length;   
                     char buffer[64]= {0};
@@ -232,7 +235,7 @@ void testFunc(virtIO_t * vio)
             case 11:
 
                 bio = dynamic_cast<binIO_t*> (vio);
-                if (bio->getStatus() == virtIO_t::ok_e )
+                if (bio->getStatus() != virtIO_t::cant_open_file_e && bio->getStatus() != virtIO_t::bad_access_e )                
                 {                   
                     char buffer[64];
                     cout << "Enter string:" << endl;
