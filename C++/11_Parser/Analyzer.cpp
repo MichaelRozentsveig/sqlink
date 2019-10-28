@@ -1,6 +1,10 @@
 #include "Analizer.h"
-#include <iostream>
-#include <list>
+# include <iostream>
+# include <string>
+# include <set>
+# include <iterator>
+# include <algorithm>
+# include <vector>
 
 using namespace std;
 
@@ -9,7 +13,7 @@ const string Analyzer_t::m_preDefTypes[] =
 
 const string Analyzer_t::m_keyWords[] =
 	{"if", "else", "for" , "while", "class", 
-		"private", "public", "protected", "main", "const", "virtual"};
+		"private", "public", "protected", "main","virtual", "const" };
 
 const string Analyzer_t::m_operators[] =
 	{"++", "--", "==", "->" , "=", "+", "-", "*", "&", "<<", ">>"};
@@ -30,7 +34,14 @@ set<string> Analyzer_t::s_operators
 set<string> Analyzer_t::s_predefTokens
 	(m_predefTokens, m_predefTokens + (sizeof(m_predefTokens)) / sizeof(m_predefTokens[0]));
 
-
+void Analyzer_t::Finish()
+{   
+    m_isIf=false;
+	printClosureError('(', this->m_roundBracCounter);
+	printClosureError('{', this->m_curlyBracCounter);
+	printClosureError('[', this->m_squareBracCounter);
+	
+}
 bool Analyzer_t::checkOperators(const string& token, size_t line)
 {
     if (m_predefTypeFlag && (token == "+" || token == "-") )
@@ -49,11 +60,11 @@ bool Analyzer_t::checkOperators(const string& token, size_t line)
         else
         {
             m_plusCounter   = 0;
-            cout << "Line "<< line << "- error, illegal operator '+++'";
+            cout << "Line "<< line << "- error, illegal operator '+++'" << endl;
         }
         return true;
     }
-    else if (token == "-")
+    if (token == "-")
     {
         if (m_minusCounter < 2)
         {
@@ -63,16 +74,13 @@ bool Analyzer_t::checkOperators(const string& token, size_t line)
         else
         {
             m_minusCounter  = 0;
-            cout << "Line "<< line << "- error, illegal operator '---'";
+            cout << "Line "<< line << "- error, illegal operator '---'" << endl;
         }
         return true;
     }
-    else
-    {
-        m_minusCounter  = 0;
-        m_plusCounter   = 0;
-        return false;
-    }   
+    m_minusCounter  = 0;
+    m_plusCounter   = 0;
+    return false ;
 }
 
 void Analyzer_t::init()
@@ -114,6 +122,26 @@ bool Analyzer_t::isClosure(const string& ch) const
 
 bool Analyzer_t::checkEnclosure(const string& token, size_t line)
 {
+    if (token == "if" || token == "else")
+    {
+        if (m_predefTypeFlag)
+        {
+            cout << "Line " << line << "error, illegal variable name" << endl;
+            m_predefTypeFlag = false;
+        }
+        if (token == "if")
+        {
+            m_isIf = true;
+        }
+        else
+        {
+            if (m_isIf == false)
+            {
+                cout << "Line "<< line <<": error, else without if" << endl;
+            }
+        }
+        
+    }
     if (isClosure(token))
     {
         if (m_predefTypeFlag)
@@ -121,6 +149,7 @@ bool Analyzer_t::checkEnclosure(const string& token, size_t line)
             cout << "Line " << line << "error, illegal variable name" << endl;
             m_predefTypeFlag = false;
         }
+        
         switch(token[0])
         {
             case '(' :  m_roundBracCounter++; return true; 
@@ -149,6 +178,7 @@ bool Analyzer_t::checkEnclosure(const string& token, size_t line)
 
             default: return false;
         }
+        
     }
 }
 
@@ -167,16 +197,15 @@ void Analyzer_t::insertToNamesVector(const string& varName)
     m_takenVarNames.insert(varName);
 }
 
-void Analyzer_t::analyzeLine(const Tokenizer_t& tokenizer, size_t line)
+void Analyzer_t::analyzeLine( Tokenizer_t& tokenizer, size_t line)
 {
-    vector <string>::iterator m_nextToken = tokenizer.getVector().begin();
+    vector <string>::iterator m_next ;
+    m_next = tokenizer.getVector().begin();
 
-
-    while (m_nextToken != tokenizer.getVector().end())
+    while (m_next != (tokenizer.getVector()).end())
     {
-        cout << *m_nextToken << endl ;
-        //analyzeToken(string(*m_nextToken), line);
-        m_nextToken++;
+        analyzeToken(*m_next, line);
+        m_next++;
     }
 }
 
@@ -186,7 +215,7 @@ void Analyzer_t::analyzeToken(const string& token, size_t line)
     {
         if (token != "main")
         {
-            cout << "Line " << endl << line <<"- no 'main' before" << endl;
+            cout << "Line " << line <<"- no 'main' before" << endl;
         }
         m_isMain = true;
     }
@@ -220,13 +249,13 @@ void Analyzer_t::analyzeToken(const string& token, size_t line)
             s_operators.find(token)         != s_operators.end() ||
             s_predefinedTypes.find(token)   != s_predefinedTypes.end())
         {
-            cout << "Line " << line << "error, illegal variable name" << endl;
+            cout << "Line " << line << "- error, illegal variable name" << endl;
         }
         else
         {
             if (nameTaken(token))
             {
-                cout << "Line " << line << "error, variable '"<<token<<"' already declared"<< endl;
+                cout << "Line " << line << "- error, variable '"<<token<<"' already declared"<< endl;
             }
             else
             {

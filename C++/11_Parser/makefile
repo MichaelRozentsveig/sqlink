@@ -2,7 +2,7 @@
 CC = g++
 
 # define any compile-time flags
-CFLAGS = -ansi -pedantic
+CFLAGS = -ansi -pedantic -g
 
 # define any directories containing header files other than /usr/include
 # EXAMPLE -> INCLUDES = -I/home/proj/include  

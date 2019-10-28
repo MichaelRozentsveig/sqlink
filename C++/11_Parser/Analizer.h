@@ -17,8 +17,9 @@ class Analyzer_t
         void init();
 
         void analyzeToken       (const string& token, size_t line);
-        void analyzeLine        (const Tokenizer_t& tokenizer, size_t line);
+        void analyzeLine        ( Tokenizer_t& tokenizer, size_t line);
 
+        void Finish();
 
     protected:
 
@@ -39,6 +40,7 @@ class Analyzer_t
         void insertToNamesVector(const string& varName);
 
         void printMissingClosures() const;
+
         
 
     private:

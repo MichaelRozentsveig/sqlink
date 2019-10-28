@@ -14,7 +14,7 @@ Parser_t::~Parser_t()
 
 void Parser_t::parseFile(const string& file)
 {
-    m_file.open(file.c_str());
+    m_file.open(file.c_str(),std::ifstream::in);
     string throwStr = "Bad input";
 
     if (!m_file.good())
@@ -39,12 +39,11 @@ void Parser_t::parseFile(const string& file)
         if( m_tokenizer->getSize() > 0)
         {
             m_analyzer->analyzeLine(*m_tokenizer,line);
-        }
-            
+        }       
         ++line;
     }
         
-    m_analyzer->init();
+    m_analyzer->Finish();
         
     m_file.close();
 }
