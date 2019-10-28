@@ -1,6 +1,7 @@
 #ifndef TK_H
 #define TK_H
 
+#include "Parser.h"
 #include <string>
 #include <vector>
 
@@ -13,47 +14,27 @@ class Tokenizer_t
         Tokenizer_t():m_tokenDels("()[]{};<>=+-*&"){}
         virtual ~Tokenizer_t(){}
 
-        void Tokenize(const string& str)
-        {
-            size_t pos = 0, next = 0;
-            size_t len = str.length();
-            
-            m_tokens.clear();
-            
-            for(pos = 0, next = 0; next <= len ; ++next)
-            {
-                if(! (isspace(str[next])))
-                {
-                    if(next > pos)
-                    {
-                        m_tokens.push_back(str.substr(pos,next-pos));
-                    }
-                    pos = next+1;                   		
-                }
+        size_t getSize() const {return m_tokens.size();}
 
-                else if(m_tokenDels.find(str[next]) != string::npos)
-                {
-                    if(next > pos)
-                    {
-                        m_tokens.push_back(str.substr(pos,next-pos));
-                    }
-                    
-                    m_tokens.push_back(str.substr(str[next],1));
-                    pos = next+1;
-                }
-            }          
-            m_iter = m_tokens.begin();
-        }
+        void Tokenize(const string& str);
+
+        vector<string> getVector() const {return m_tokens;}
+
+        static const string emptyStr;
+
+    protected:
+        vector  <string> m_tokens;
 
     private:
-        const string& m_tokenDels ;
+        const string& m_tokenDels;
         
         Tokenizer_t                  (const Tokenizer_t& tokenizer);
 	    const Tokenizer_t& operator= (const Tokenizer_t& tokenizer);
         
-        vector<string> m_tokens;
-        vector<string>::iterator m_iter;
+        
+        vector  <string>::iterator m_iter;
+        vector  <string>::iterator m_nextToken;
 
-}
+};
 
 #endif
